@@ -1,0 +1,37 @@
+# ==============================================================================
+# AcreetionOS i3 — Weekly ISO Build
+# Calls the shared reusable workflow from acreetionos-build-workflows
+# ==============================================================================
+
+name: Build i3 ISO
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # Every Monday at 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      version_suffix:
+        description: "Optional version suffix (e.g., rc1, hotfix)"
+        required: false
+        type: string
+
+jobs:
+  build:
+    uses: spivanatalie64/acreetionos-build-workflows/.github/workflows/build-iso.yml@main
+    with:
+      edition-name: "i3"
+      edition-label: "i3"
+      edition-repo: "i3"
+      edition-description: "i3 Tiling WM Community Edition"
+      r2-bucket: "acreetionos-i3"
+      ia-prefix: "AcreetionOS-i3"
+      sf-path: "acreetionos-iso-image/i3"
+    secrets:
+      cf-account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      cf-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      cf-email: ${{ secrets.CLOUDFLARE_EMAIL }}
+      ia-access-key: ${{ secrets.IA_ACCESS_KEY }}
+      ia-secret-key: ${{ secrets.IA_SECRET_KEY }}
+      sf-username: ${{ secrets.SF_USERNAME }}
+      sf-password: ${{ secrets.SF_PASSWORD }}
+      gh-token: ${{ secrets.GITHUB_TOKEN }}
